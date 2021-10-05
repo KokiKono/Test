@@ -17,8 +17,10 @@ jobs:
     - name: Setup .serverless folder
       id: setup_serverless
       run: |
+        echo "::group::Test"
         echo "::debug::setup_serverless"
         echo "::debug::`echo $GITHUB_REF`"
+        echo "::endgroup::"
         if [[ $GITHUB_REF == *"release/"* ]]; then
           echo "::set-output name=folder_name::prerelease"
           echo "::debug::prerelease"

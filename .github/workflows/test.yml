@@ -26,5 +26,7 @@ jobs:
       env:
         FOLDER: ${{ steps.setup_serverless.output.folder_name }}
       run: |
+        echo "::group::Test"
         echo $FOLDER
+        echo "::endgroup::"
     

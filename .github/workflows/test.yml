@@ -20,6 +20,7 @@ jobs:
         echo "::group::Test"
         echo "setup_serverless"
         echo "`echo $GITHUB_REF`"
+        echo "`echo ${GITHUB_REF##*/}`"
         echo "::endgroup::"
         if [[ $GITHUB_REF == *"release/"* ]]; then
           echo "::set-output name=folder_name::prerelease"

@@ -1,0 +1,30 @@
+name: Deploy main branch
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - 'release/*'
+jobs:
+  deploy:
+    name: deploy
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .serverless folder
+      id: setup_serverless
+      run: |
+        if [[ $GITHUB_REF == *"release/"* ]]; then
+          echo "::set-output name=folder_name::prerelease"
+        else
+          echo "::set-output name=folder_name::`echo ${GITHUB_REF##*/}`"
+        fi
+    - name: Echo
+      env:
+        FOLDER: ${{ steps.setup_serverless.output.folder_name }}
+      run: |
+        echo $FOLDER
+    

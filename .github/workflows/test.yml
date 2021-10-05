@@ -14,34 +14,18 @@ jobs:
         node-version: [14.x]
     steps:
     - uses: actions/checkout@v2
-    - name: Setup .serverless folder
-      id: setup_serverless
       run: |
-        echo "::group::Test"
-        echo "setup_serverless"
-        echo "`echo $GITHUB_REF`"
-        echo "`echo ${GITHUB_REF##*/}`"
-        echo "::endgroup::"
         if [[ $GITHUB_REF == *"release/"* ]]; then
           echo "::set-output name=folder_name::prerelease"
-          echo "::group::Release"
-          echo "prerelease"
-          echo "::endgroup::"
-          echo "::debug::prerelease"
         else
-          echo "::set-output name=folder_name::`echo ${GITHUB_REF##*/}`"
-          echo "::debug::`echo ${GITHUB_REF##*/}`"
-          echo "::group::other"
-          echo "`echo ${GITHUB_REF##*/}`"
-          echo "::endgroup::"
+          echo "::set-output name=folder_name::${GITHUB_REF##*/}"
         fi
     - name: Echo
       env:
         FOLDER: ${{ steps.setup_serverless.outputs.folder_name }}
       run: |
-        echo "::group::Test"
-        echo "Output Folder"
+        echo "::group::My title"
+        echo "Inside group"
         echo $FOLDER
-        echo "::endgroup::""
-
+        echo "::endgroup::"
     

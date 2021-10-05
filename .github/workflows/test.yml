@@ -24,10 +24,16 @@ jobs:
         echo "::endgroup::"
         if [[ $GITHUB_REF == *"release/"* ]]; then
           echo "::set-output name=folder_name::prerelease"
+          echo "::group::Release"
+          echo "prerelease"
+          echo "::endgroup::"
           echo "::debug::prerelease"
         else
           echo "::set-output name=folder_name::`echo ${GITHUB_REF##*/}`"
           echo "::debug::`echo ${GITHUB_REF##*/}`"
+          echo "::group::other"
+          echo "`echo ${GITHUB_REF##*/}`"
+          echo "::endgroup::"
         fi
     - name: Echo
       env:

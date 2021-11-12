@@ -1,0 +1,31 @@
+name: Create Release PR
+on:
+  workflow_dispatch:
+    inputs:
+      releaseID:
+        description: 'リリースID'
+        required: true
+jobs:
+  create_release_pr:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Branch: ${{github.head_ref}}"
+          echo "version ID: v${{ github.event.inputs.releaseID }}"
+      - name: Create PR
+        uses: actions/github-script@v5
+        env:
+          RELEASE_ID: ${{ github.event.inputs.releaseID }}
+          BRANCH: release/v${{ github.event.inputs.releaseID }}
+        with:
+          script: |
+            const { data: releasePrResult } = await github.rest.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Release ${process.env.RELEASE_ID}`,
+              body: `ほげほげ`,
+              head: `${process.env.BRANCH}`,
+              base: 'main',
+              maintainer_can_modify: true,
+              draft: true
+            })
